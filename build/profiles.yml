@@ -1,11 +1,11 @@
 # For more information on how to configure this file, please see:
 # https://docs.getdbt.com/docs/profile
 
-sales_ops:
+jaffle_shop:
   target: default
   outputs:
     default:
-      type: sqlserver
+      type: sqlserver # or synapse or whatever you want
       driver: "ODBC Driver 17 for SQL Server"
       schema: "{{ env_var('SCHEMA') }}"
       host: "{{ env_var('HOST') }}"
