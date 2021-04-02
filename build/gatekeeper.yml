@@ -1,0 +1,14 @@
+trigger:
+- UAT
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  location: ./build
+  schema: dev
+  host: $(DEV_SERVER)
+  db: $(DEV_DB)
+
+steps:
+  - template: other_repo/step_template.yml

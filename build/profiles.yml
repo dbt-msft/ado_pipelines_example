@@ -1,0 +1,14 @@
+# For more information on how to configure this file, please see:
+# https://docs.getdbt.com/docs/profile
+
+sales_ops:
+  target: default
+  outputs:
+    default:
+      type: sqlserver
+      driver: "ODBC Driver 17 for SQL Server"
+      schema: "{{ env_var('SCHEMA') }}"
+      host: "{{ env_var('HOST') }}"
+      database: "{{ env_var('DB') }}"
+      authentication: CLI
+      port: 1433

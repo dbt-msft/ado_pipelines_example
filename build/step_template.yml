@@ -1,0 +1,94 @@
+steps:
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.6'
+
+- script: |
+    python -m pip install --upgrade pip==20.1 setuptools>=40.1.0 wheel
+    python -m pip install dbt-synapse
+  displayName: 'dbt-synapse install'
+
+- task: AzureCLI@2
+  displayName: 'dbt debug'
+  inputs:
+    azureSubscription: ITSDETEAM
+    ScriptType: bash
+    scriptLocation: inlineScript
+    inlineScript: |
+      dbt --version
+      dbt debug --profiles-dir $(location)
+  env:
+    HOST: $(host)
+    DB: $(db)
+
+- task: AzureCLI@2
+  displayName: 'dbt clean'
+  inputs:
+    azureSubscription: ITSDETEAM
+    ScriptType: bash
+    scriptLocation: inlineScript
+    inlineScript: |
+      dbt clean --profiles-dir $(location)
+  env:
+    HOST: $(host)
+    DB: $(db)
+
+- task: AzureCLI@2
+  displayName: 'dbt deps'
+  inputs:
+    azureSubscription: ITSDETEAM
+    ScriptType: bash
+    scriptLocation: inlineScript
+    inlineScript: |
+      dbt deps --profiles-dir $(location)
+  env:
+    HOST: $(host)
+    DB: $(db)
+
+- task: AzureCLI@2
+  displayName: 'dbt seed'
+  inputs:
+    azureSubscription: ITSDETEAM
+    ScriptType: bash
+    scriptLocation: inlineScript
+    inlineScript: |
+      dbt seed --profiles-dir $(location)
+  env:
+    HOST: $(host)
+    DB: $(db)
+
+- task: AzureCLI@2
+  displayName: 'dbt stage external sources'
+  inputs:
+    azureSubscription: ITSDETEAM
+    ScriptType: bash
+    scriptLocation: inlineScript
+    inlineScript: |
+      dbt run-operation stage_external_sources --vars "ext_full_refresh: true" --profiles-dir $(location)
+  env:
+    HOST: $(host)
+    DB: $(db)
+
+- task: AzureCLI@2
+  displayName: 'dbt run'
+  inputs:
+    azureSubscription: ITSDETEAM
+    ScriptType: bash
+    scriptLocation: inlineScript
+    inlineScript: |
+      dbt run --profiles-dir $(location)
+  env:
+    HOST: $(host)
+    DB: $(db)
+
+- task: AzureCLI@2
+  displayName: 'dbt test'
+  inputs:
+    azureSubscription: ITSDETEAM
+    ScriptType: bash
+    scriptLocation: inlineScript
+    inlineScript: |
+      dbt test --profiles-dir $(location)
+  env:
+    HOST: $(host)
+    DB: $(db)

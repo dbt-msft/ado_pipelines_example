@@ -1,0 +1,7 @@
+ packages:
+   - package: fishtown-analytics/dbt_external_tables
+     version: 0.6.2
+   - package: fishtown-analytics/dbt_utils
+     version: 0.6.4
+   - package: dbt-msft/tsql_utils
+     version: 0.6.5

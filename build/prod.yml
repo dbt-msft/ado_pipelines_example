@@ -1,0 +1,22 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  location: ./build
+  schema: prd
+  host: $(PROD_SERVER)
+  db: $(PROD_DB)
+
+schedules:
+- cron: "0 3 * * *"
+  displayName: Daily 3am UTC build
+  branches:
+    include:
+    - master
+  always: true
+
+steps:
+- template: step_template.yml
